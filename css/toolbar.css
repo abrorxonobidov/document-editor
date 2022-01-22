@@ -1,0 +1,7 @@
+#cke_editor .cke_combo_button,
+#cke_editor .cke_toolgroup {
+    border: 1px solid #e1e1e1;
+    border-radius: 7px;
+    padding: 3px 6px;
+    margin-right: 10px;
+}
