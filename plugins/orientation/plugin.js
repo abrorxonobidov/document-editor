@@ -21,6 +21,7 @@ CKEDITOR.plugins.add('orientation', {
                 if (!oConfig) oConfig = initialConfig;
                 let oClass = (e.config.bodyClass.indexOf('landscape') > 0) ? 'portrait' : 'landscape';
                 newConfig.bodyClass = 'document-editor ' + oClass;
+                newConfig.exportPdf_options.page_orientation = oClass;
                 CKEDITOR.instances[oConfig.containerId].destroy();
                 CKEDITOR.replace(oConfig.containerId, newConfig);
                 let oPoly = document.getElementById(oConfig.polyId);
