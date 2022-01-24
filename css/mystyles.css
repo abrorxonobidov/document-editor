@@ -9,13 +9,13 @@ body.document-editor {
 }
 
 body.document-editor.portrait {
-    width: 160mm;
+    width: 165mm;
     min-height: 250mm;
 }
 
 body.document-editor.landscape {
     width: 250mm;
-    min-height: 160mm;
+    min-height: 165mm;
 }
 
 body.document-editor td, body.document-editor th {
