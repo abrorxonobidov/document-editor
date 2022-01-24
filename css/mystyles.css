@@ -1,23 +1,21 @@
 body.document-editor {
-    padding: 1cm 1.5cm 1cm 3cm;
+    padding-top: 1cm;
+    padding-bottom: 1cm;
     border: 1px #D3D3D3 solid;
     border-radius: 5px;
     background: white;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     margin: 30px auto;
-    font-size: 14pt;
-    line-height: 14pt;
-    font-family: "Times New Roman", sans-serif;
 }
 
 body.document-editor.portrait {
-    width: 210mm;
-    min-height: 297mm;
+    width: 160mm;
+    min-height: 230mm;
 }
 
 body.document-editor.landscape {
-    width: 297mm;
-    min-height: 210mm;
+    width: 230mm;
+    min-height: 160mm;
 }
 
 body.document-editor td, body.document-editor th {

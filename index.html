@@ -11,7 +11,9 @@
 </head>
 <body id="main">
 
-<input id="outbox-orientation" type="text" value="1" style="display: none">
+<label for="outbox-orientation">
+    <input id="outbox-orientation" type="text" value="1" style="display: none">
+</label>
 
 <main>
     <div class="adjoined-bottom">
@@ -19,6 +21,16 @@
             <div class="grid-width-100">
                 <div id="editor">
                     <h1>Hello world!</h1>
+                    <p>Hello world!______ sd sdfsd fsd ___ sdfsd fsd___ sd____________________________ sdfsd ______________ sdfsd _____________ sdfsdzvsd sdf sdf sdf sdf sdf sd sdf sd gdghjyf jrtu&nbsp; kzhgsluhgsuh;gzf;gnj s;gfjsd rgjs; gnsd;g nsfdg nh;sknhghd;fgkjh doitj hd;ohijf;gkdgk j;ghgh ;dfghj;d gh;gnd;fgkh ;dghjdj gjh;fdhd khd;g jhdfiojh; klgj__________sfs d s</p>
+
+                    <p>d sdf sdf sdf ds sdf sdfsd ssaa</p>
+
+                    <p>dfsd</p>
+
+                    <p>fsdfsdfsd f sdfsd sdf</p>
+
+                    <p>ds sdfsdf sdf sdfsd dsf sd fsd f ds</p>
+
                 </div>
             </div>
         </div>
@@ -36,6 +48,17 @@
         disallowedContent: 'img{width,height,float}',
         extraAllowedContent: 'img[width,height,align]',
         exportPdf_tokenUrl: 'https://86227.cke-cs.com/token/dev/4373ebaba22fbdbb7e0ef47fe1620b51815203614b8cac68ddf971f02570?limit=10',
+        exportPdf_options: {
+            header_html: '<div class="header-info"> <b class="left">E-qaror.gov.uz</b> <b class="right">' + (new Date).toLocaleDateString('ru-RU') +'</b></div>',
+            footer_html: '<div class="footer-info"><b class="pageNumber"></b></div>',
+            header_and_footer_css: 'div {position:relative; font-size:8px; font-style: italic; font-family:"Times New Roman";}' +
+                '.header-info {height:11px; border-bottom: 1px solid #777; margin: 25px 30px 0 82px;}' +
+                '.footer-info {border-top: 1px solid #777; text-align:center; margin: 0 30px 25px 82px; padding-top:3px;}' +
+                '.left {float:left;} ' +
+                '.right {float:right;}',
+            margin_top: '57px',
+            // margin_bottom: '57px',
+        },
         removePlugins: 'ckeditortablecellsselection,scayt',
         removeFormatAttributes: "style,lang,width,height,align,hspace,valign",
         toolbar: [

@@ -2,31 +2,37 @@
 Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
+* {
+	margin: 0;
+	padding: 0;
+}
 
 body
 {
 	/* Font */
 	/* Emoji fonts are added to visualise them nicely in Internet Explorer. */
-	font-family: sans-serif, Arial, Verdana, "Trebuchet MS", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-	font-size: 12px;
-
+	font-size: 14px;
+	line-height: 1.6;
+	font-family: "Times New Roman", sans-serif;
 	/* Text color */
-	color: #333;
+	color: #000;
 
 	/* Remove the background color to make it transparent. */
-	background-color: #fff;
+	/*background-color: #000;*/
 
-	margin: 20px;
+	padding: 0 1.5cm 0 3cm ;
 }
 
+/*
 .cke_editable
 {
-	font-size: 13px;
+	font-size: 14px;
 	line-height: 1.6;
 
-	/* Fix for missing scrollbars with RTL texts. (#10488) */
+	!* Fix for missing scrollbars with RTL texts. (#10488) *!
 	word-wrap: break-word;
 }
+*/
 
 blockquote
 {
@@ -60,7 +66,7 @@ a
 ol,ul,dl
 {
 	/* IE7: reset rtl list margin. (#7334) */
-	*margin-right: 0px;
+	*margin-right: 0;
 	/* Preserved spaces for list items with text direction different than the list. (#6249,#8049)*/
 	padding: 0 40px;
 }
@@ -73,7 +79,7 @@ h1,h2,h3,h4,h5,h6
 
 hr
 {
-	border: 0px;
+	border: 0;
 	border-top: 1px solid #ccc;
 }
 
@@ -170,39 +176,4 @@ a > img {
 .image-grayscale img, img.image-grayscale
 {
 	filter: grayscale(100%);
-}
-
-.embed-240p
-{
-	max-width: 426px;
-	max-height: 240px;
-	margin:0 auto;
-}
-
-.embed-360p
-{
-	max-width: 640px;
-	max-height: 360px;
-	margin:0 auto;
-}
-
-.embed-480p
-{
-	max-width: 854px;
-	max-height: 480px;
-	margin:0 auto;
-}
-
-.embed-720p
-{
-	max-width: 1280px;
-	max-height: 720px;
-	margin:0 auto;
-}
-
-.embed-1080p
-{
-	max-width: 1920px;
-	max-height: 1080px;
-	margin:0 auto;
 }
