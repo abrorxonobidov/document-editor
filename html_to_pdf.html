@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="adapters/jquery_1.9.1.js"></script>
+</head>
+<body>
+<div id="document-container">
+    <p>Hello world!</p>
+</div>
+
+<script>
+
+
+
+
+
+
+    /**                   */
+
+    //const header = {"alg": "HS256","typ": "JWT"};
+
+    //const payload = {aud: "6GvNcgNlcmAWrOHhypfG", iat: 1516239022}
+
+    //const accessKey = 'Pkfhi77pq7WcPUhNdH7DIOyxWmRLQ055CTFlyEDNWaoM5jFyyFRHanBsRz26';
+
+
+    //const token = jwt.sign( payload, accessKey, { algorithm: 'HS256' } );
+
+    let token = '';
+
+    $.ajax({
+        method: 'get',
+        url: 'http://e-qaror.gov.lo/uz/api/jwt',
+        success: res => {
+            token = res;
+            console.log(token);
+            $.ajax({
+                headers: {
+                    Authorization: token
+                },
+                method: 'post',
+                contentType: "application/json",
+                url: 'https://pdf-converter.cke-cs.com/v1/convert',
+                dataType: "json",
+                data: {
+                    html: document.getElementById('document-container').innerHTML
+                },
+            }).then(res => {
+                console.log(res)
+            })
+        },
+        error:  error => console.error(error)
+    })
+
+
+</script>
+
+</body>
+</html>
