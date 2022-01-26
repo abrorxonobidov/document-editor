@@ -3,59 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script src="adapters/jquery_1.9.1.js"></script>
+
+    <link rel="stylesheet" href="css/contents.css">
+    <link rel="stylesheet" href="css/mystyles.css">
+
 </head>
-<body>
-<div id="document-container">
-    <p>Hello world!</p>
-</div>
+<body id="document-container" class="document-editor portrait">
 
-<script>
+<p>Hello world!</p>
 
-
-
-
-
-
-    /**                   */
-
-    //const header = {"alg": "HS256","typ": "JWT"};
-
-    //const payload = {aud: "6GvNcgNlcmAWrOHhypfG", iat: 1516239022}
-
-    //const accessKey = 'Pkfhi77pq7WcPUhNdH7DIOyxWmRLQ055CTFlyEDNWaoM5jFyyFRHanBsRz26';
-
-
-    //const token = jwt.sign( payload, accessKey, { algorithm: 'HS256' } );
-
-    let token = '';
-
-    $.ajax({
-        method: 'get',
-        url: 'http://e-qaror.gov.lo/uz/api/jwt',
-        success: res => {
-            token = res;
-            console.log(token);
-            $.ajax({
-                headers: {
-                    Authorization: token
-                },
-                method: 'post',
-                contentType: "application/json",
-                url: 'https://pdf-converter.cke-cs.com/v1/convert',
-                dataType: "json",
-                data: {
-                    html: document.getElementById('document-container').innerHTML
-                },
-            }).then(res => {
-                console.log(res)
-            })
-        },
-        error:  error => console.error(error)
-    })
-
-
-</script>
+<button onclick="createAndDownloadPDF()">Download</button>
 
 </body>
+<script>
+    function sheet_to_link(x) {
+        console.log(x);
+        return Array.prototype.map.call(x, css_text).join('\n')
+    }
+
+    function css_text(x) {
+        return x.rules.cssText;
+    }
+
+
+    let styleSheets = document.styleSheets;
+    //styleSheets.map(sheet => console.log(sheet));
+    let content = Array.prototype.map.call(styleSheets, sheet_to_link).join('\n');
+
+    console.log(content);
+
+    const DEFAULT_HEADERS = {
+        'x-cs-app-id': 'cs-pdf-demo'
+    };
+
+    const tokenEndpoint = 'https://86227.cke-cs.com/token/dev/4373ebaba22fbdbb7e0ef47fe1620b51815203614b8cac68ddf971f02570?limit=10';
+
+    const converterEndPoint = 'https://pdf-converter.cke-cs.com/v1/convert';
+
+
+    let pageOptions = {
+        header_html: `<div class="header-info"> <b class="left">E-qaror.gov.uz</b> <b class="right">${(new Date).toLocaleDateString('ru-RU')}</b></div>`,
+        footer_html: '<div class="footer-info"><b class="pageNumber"></b></div>',
+        header_and_footer_css: "div {position:relative; font-size:8px; font-style: italic; font-family:\"Times New Roman\";}.header-info {height:11px; border-bottom: 1px solid #777; margin: 25px 30px 0 82px;}.footer-info {border-top: 1px solid #777; text-align:center; margin: 0 30px 25px 82px; padding-top:3px;}.left {float:left;} .right {float:right;}",
+        margin_top: '57px',
+        margin_bottom: '57px',
+        page_orientation: 'landscape',
+        css: ''
+    }
+
+
+    let request = {
+        html: document.getElementById('document-container').innerHTML,
+        //css: "html { cursor: text; }img, input, textarea { cursor: default; }",
+        options: pageOptions
+    };
+
+    let createAndDownloadPDF = () => {
+        createHeaders(tokenEndpoint)
+            .then(headers => fetch(converterEndPoint, {
+                method: 'POST',
+                body: JSON.stringify(request),
+                headers
+            }))
+            .then(res => {
+                if (res.status === 400) {
+                    alert('An error occurred during conversion. Please check all the inputs.');
+                    return null;
+                }
+                if (res.status > 299) {
+                    alert('An error occurred during conversion.');
+                    return null;
+                }
+                return res.blob();
+            })
+            .then(blob => {
+                if (!blob) return;
+                const link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = `pdf-converter-demo-${Date.now()}.pdf`;
+                link.click();
+            });
+    }
+
+    let createHeaders = tokenEndpoint => {
+        if (tokenEndpoint) {
+            return fetch(tokenEndpoint, {method: 'GET'})
+                .then(res => res.text())
+                .then(token => {
+                    return {...DEFAULT_HEADERS, Authorization: token}
+                });
+        }
+        return Promise.resolve(DEFAULT_HEADERS);
+    }
+</script>
 </html>
