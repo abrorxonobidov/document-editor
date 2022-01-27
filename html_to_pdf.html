@@ -12,25 +12,12 @@
 
 <p>Hello world!</p>
 
-<button onclick="createAndDownloadPDF()">Download</button>
+<button onclick="createAndDownloadPDF()" class="hidden-in-pdf">Download</button>
 
 </body>
 <script>
-    function sheet_to_link(x) {
-        console.log(x);
-        return Array.prototype.map.call(x, css_text).join('\n')
-    }
 
-    function css_text(x) {
-        return x.rules.cssText;
-    }
-
-
-    let styleSheets = document.styleSheets;
-    //styleSheets.map(sheet => console.log(sheet));
-    let content = Array.prototype.map.call(styleSheets, sheet_to_link).join('\n');
-
-    console.log(content);
+    const orientation = 'portrait';
 
     const DEFAULT_HEADERS = {
         'x-cs-app-id': 'cs-pdf-demo'
@@ -40,31 +27,38 @@
 
     const converterEndPoint = 'https://pdf-converter.cke-cs.com/v1/convert';
 
-
-    let pageOptions = {
-        header_html: `<div class="header-info"> <b class="left">E-qaror.gov.uz</b> <b class="right">${(new Date).toLocaleDateString('ru-RU')}</b></div>`,
+    const pageOptions = {
+        header_html: `<div class="header-info"><b class="left">E-qaror.gov.uz</b><b class="right">${(new Date).toLocaleDateString('ru-RU')}</b></div>`,
         footer_html: '<div class="footer-info"><b class="pageNumber"></b></div>',
         header_and_footer_css: "div {position:relative; font-size:8px; font-style: italic; font-family:\"Times New Roman\";}.header-info {height:11px; border-bottom: 1px solid #777; margin: 25px 30px 0 82px;}.footer-info {border-top: 1px solid #777; text-align:center; margin: 0 30px 25px 82px; padding-top:3px;}.left {float:left;} .right {float:right;}",
         margin_top: '57px',
         margin_bottom: '57px',
-        page_orientation: 'landscape',
-        css: ''
+        page_orientation: orientation,
     }
 
+    const cssContent = Array.prototype.map.call(document.styleSheets,
+        file => Array.prototype.map.call(file.cssRules,
+            cssRules => cssRules.cssText
+        ).join('\n')
+    ).join('\n');
 
     let request = {
         html: document.getElementById('document-container').innerHTML,
-        //css: "html { cursor: text; }img, input, textarea { cursor: default; }",
+        css: cssContent + '.hidden-in-pdf {display:none;}',
         options: pageOptions
     };
 
-    let createAndDownloadPDF = () => {
+    let createAndDownloadPDF = (orientation = null) => {
         createHeaders(tokenEndpoint)
-            .then(headers => fetch(converterEndPoint, {
-                method: 'POST',
-                body: JSON.stringify(request),
-                headers
-            }))
+            .then(headers => {
+                if (orientation)
+                    request.options.page_orientation = orientation;
+                return fetch(converterEndPoint, {
+                    method: 'POST',
+                    body: JSON.stringify(request),
+                    headers
+                })
+            })
             .then(res => {
                 if (res.status === 400) {
                     alert('An error occurred during conversion. Please check all the inputs.');
